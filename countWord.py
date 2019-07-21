@@ -5,10 +5,9 @@ import tkinter.filedialog
 import hashlib
 import time
 import chardet
-import sys
+import os
 import re
 import json
-
 # -*- coding: utf-8 -*-
 LOG_LINE_NUM = 0
 class WORD_GUI():
@@ -54,10 +53,16 @@ class WORD_GUI():
         self.Ctourl_button = Button(self.init_window_name, text="URL转为汉字", bg="yellow",
                                     width=15, command=self.urltoc)
         self.Ctourl_button.grid(row=5, column=11)
+        self.Ctourl_button = Button(self.init_window_name, text="统计文件", bg="red",
+                                    width=15, command=self.findFile)
+        self.Ctourl_button.grid(row=6, column=11)
         self.result_data_scrollbar_y = Scrollbar(self.init_window_name)  # 创建纵向滚动条
         self.result_data_scrollbar_y.config(command=self.result_data_Text.yview)  # 将创建的滚动条通过command参数绑定到需要拖动的Text上
         self.result_data_Text.config(yscrollcommand=self.result_data_scrollbar_y.set)# Text反向绑定滚动条
         self.result_data_scrollbar_y.grid(row=1, column=23, rowspan=15, sticky='NS')
+    #统计文件
+    def findFile(self):
+        pass
     #汉字转url
     def tourl(self):
         import urllib.parse
