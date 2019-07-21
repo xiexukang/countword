@@ -8,6 +8,7 @@ import chardet
 import os
 import re
 import json
+import listdir
 # -*- coding: utf-8 -*-
 LOG_LINE_NUM = 0
 class WORD_GUI():
@@ -62,7 +63,8 @@ class WORD_GUI():
         self.result_data_scrollbar_y.grid(row=1, column=23, rowspan=15, sticky='NS')
     #统计文件
     def findFile(self):
-        pass
+        d = listdir.DirList(os.curdir)
+        mainloop()
     #汉字转url
     def tourl(self):
         import urllib.parse
