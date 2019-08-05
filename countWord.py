@@ -9,6 +9,7 @@ import os
 import re
 import json
 import listdir
+import analysis_pcap_1
 # -*- coding: utf-8 -*-
 LOG_LINE_NUM = 0
 class WORD_GUI():
@@ -57,10 +58,18 @@ class WORD_GUI():
         self.Ctourl_button = Button(self.init_window_name, text="统计文件", bg="red",
                                     width=15, command=self.findFile)
         self.Ctourl_button.grid(row=6, column=11)
+        self.analysis_pcap_button = Button(self.init_window_name, text="pcap分析", bg="gold",
+                                    width=15, command=self.analysis_pcap)
+        self.analysis_pcap_button.grid(row=7, column=11)
         self.result_data_scrollbar_y = Scrollbar(self.init_window_name)  # 创建纵向滚动条
         self.result_data_scrollbar_y.config(command=self.result_data_Text.yview)  # 将创建的滚动条通过command参数绑定到需要拖动的Text上
         self.result_data_Text.config(yscrollcommand=self.result_data_scrollbar_y.set)# Text反向绑定滚动条
         self.result_data_scrollbar_y.grid(row=1, column=23, rowspan=15, sticky='NS')
+    def analysis_pcap(self):
+        selectFileName = tkinter.filedialog.askopenfilename(title='选择你要分析的pcap文件')  # 选择文件
+        target_dict = analysis_pcap_1.analysis_pcap(selectFileName)
+        self.result_data_Text.delete(1.0, END)
+        self.result_data_Text.insert(1.0, 'pcap包解析结果如下:\n%s' % target_dict.analysis_run())
     #统计文件
     def findFile(self):
         d = listdir.DirList(os.curdir)

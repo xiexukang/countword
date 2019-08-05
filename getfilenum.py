@@ -1,5 +1,5 @@
 import os
-
+from queue import Queue
 Directorylist = []
 #递归方式
 def FileList(dir,fileList):
@@ -14,35 +14,41 @@ def FileList(dir,fileList):
             FileList(newDir,fileList)  #递归检索子文件夹
     return fileList
 #使用层次遍历
-j=0
 def GetFile(dir):
-    list2=[]
-    list1=os.listdir(dir)
-    l =len(list1)
-    m=0
-    while m<l:
-        list1[m]=os.path.join(dir,list1[m])#使其子目录具有完整路径
-        m +=1
-    #用于测试，调试bug,print('初始长度',l)print('初始文件目录:',list1)
-    for i in list1:
-
-        newdir = i
-        #print('测试1：',newdir)
+    """
+    :param dir:
+    :return:fileList
+    """
+    fileList = []
+    target_file = os.listdir(dir)
+    target_file = [os.path.join(dir, element) for element in target_file]
+    for dir_i in target_file:
+        newdir = dir_i
         if os.path.isfile(newdir):
-            list2.append(newdir)
-            #测试：print('附加后的文件:',list1)
+            fileList.append(newdir)
         else:
+            for dir_k in os.listdir(newdir):
+                target_file.append(os.path.join(newdir, dir_k))
+    return fileList
+def GetFile_Queue(dir):
+    """
+        :param dir:
+        :return:(filelist)队列
+        """
+    filelist=Queue(maxsize=0)
+    filelist.put(dir)
+    while not filelist.empty():
+        print(filelist.get())
+    return []
 
-            for k in os.listdir(newdir):
-                list1.append(os.path.join(newdir,k))
-            #print('附加后的目录:',list1)
-    return list2
-n = input("输入你要使用的方式.1：递归检测，2：层次遍历检测")
+choose_way = input("输入你要使用的方式.1：递归检测，2：层次遍历检测,3:队列方式")
 File = input('输入你要检测的文件地址:')
-if(int(n)==1):
+if int(choose_way) == 1:
     fileList = FileList('%s' % File, [])
-else:
+elif int(choose_way) == 2:
     fileList = GetFile('%s'% File)
+else:
+    fileList = GetFile_Queue('%s'% File)
 for f in fileList:
     print(f)
 
