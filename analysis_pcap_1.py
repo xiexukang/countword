@@ -51,7 +51,7 @@ class analysis_pcap:
         i = 0
         while i <= len_string-2:
             if  dst_string != "":
-                dst_string = dst_string+":"+str(int(string[i:i+2], 16))
+                dst_string = dst_string+"."+str(int(string[i:i+2], 16))
             else:
                 dst_string += str(int(string[i:i+2], 16))
             i += 2

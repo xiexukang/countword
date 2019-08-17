@@ -69,7 +69,7 @@ class WORD_GUI():
         selectFileName = tkinter.filedialog.askopenfilename(title='选择你要分析的pcap文件')  # 选择文件
         target_dict = analysis_pcap_1.analysis_pcap(selectFileName)
         self.result_data_Text.delete(1.0, END)
-        self.result_data_Text.insert(1.0, 'pcap包解析结果如下:\n%s' % target_dict.analysis_run())
+        self.result_data_Text.insert(1.0, 'pcap包解析结果如下:\n%s' % json.dumps(target_dict.analysis_run(), ensure_ascii=False, indent=4))
     #统计文件
     def findFile(self):
         d = listdir.DirList(os.curdir)
@@ -90,9 +90,12 @@ class WORD_GUI():
         self.result_data_Text.insert(1.0, '%s' % url)
     #json格式化
     def JSON(self):
-        text = self.init_data_Text.get(1.0,END)
-        js = json.dumps(text,sort_keys=True,indent=4,separators=(',', ':'))
-        self.result_data_Text.insert(1.0, '%s'% js)
+        text = self.init_data_Text.get(1.0, END)
+        text = json.loads(text)
+
+        js = json.dumps(text, indent=4, ensure_ascii=False)
+
+        self.result_data_Text.insert(1.0, '%s' % js)
 
 
     def uploadfile(self):
